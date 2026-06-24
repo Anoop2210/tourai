@@ -8,8 +8,9 @@ async function getDestination(slug: string) {
   return prisma.destination.findUnique({ where: { slug } });
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const dest = await getDestination(params.slug).catch(() => null);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const dest = await getDestination(slug).catch(() => null);
   if (!dest) return { title: "Destination Guide" };
   return {
     title: `${dest.name} Trip Cost & Itinerary`,
@@ -19,8 +20,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function DestinationPage({ params }: { params: { slug: string } }) {
-  const dest = await getDestination(params.slug).catch(() => null);
+export default async function DestinationPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const dest = await getDestination(slug).catch(() => null);
   if (!dest) return notFound();
 
   const attractions = dest.attractions as { name: string; desc: string }[];
