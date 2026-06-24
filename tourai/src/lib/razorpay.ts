@@ -1,32 +1,18 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getRazorpay, PREMIUM_PRICE_INR } from "@/lib/razorpay";
-import { prisma } from "@/lib/prisma";
+import Razorpay from "razorpay";
 
-export async function POST(req: NextRequest) {
-  try {
-    const { tripId, userId } = await req.json();
-    const razorpay = getRazorpay();
+let _razorpay: Razorpay | null = null;
 
-    const order = await razorpay.orders.create({
-      amount: PREMIUM_PRICE_INR * 100,
-      currency: "INR",
-      receipt: `trip_${tripId ?? "guest"}_${Date.now()}`,
-      notes: { tripId: tripId ?? "", userId: userId ?? "" },
+export function getRazorpay(): Razorpay {
+  if (!_razorpay) {
+    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+      throw new Error("Razorpay keys are not configured. Add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to your environment variables.");
+    }
+    _razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
-
-    await prisma.payment.create({
-      data: {
-        userId,
-        tripId,
-        razorpayOrderId: order.id,
-        amount: PREMIUM_PRICE_INR,
-        status: "CREATED",
-      },
-    });
-
-    return NextResponse.json({ success: true, order });
-  } catch (err) {
-    console.error("create-order error", err);
-    return NextResponse.json({ success: false, error: "Could not create payment order" }, { status: 500 });
   }
+  return _razorpay;
 }
+
+export const PREMIUM_PRICE_INR = 99;
