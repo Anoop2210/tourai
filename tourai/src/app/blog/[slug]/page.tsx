@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const post = await prisma.blogPost.findUnique({ where: { slug: params.slug } }).catch(() => null);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await prisma.blogPost.findUnique({ where: { slug } }).catch(() => null);
   return { title: post?.title ?? "Blog Post", description: post?.excerpt };
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await prisma.blogPost.findUnique({ where: { slug: params.slug } }).catch(() => null);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await prisma.blogPost.findUnique({ where: { slug } }).catch(() => null);
   if (!post) return notFound();
 
   return (

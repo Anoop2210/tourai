@@ -6,8 +6,7 @@ export const metadata: Metadata = {
   description: "Generate a complete day-wise travel itinerary with AI in seconds.",
 };
 
-export default async function PlannerPage({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
-  const params = await searchParams;
+export default function PlannerPage({ searchParams }: { searchParams: Record<string, string> }) {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold text-slate-900">AI Tour Planner</h1>
