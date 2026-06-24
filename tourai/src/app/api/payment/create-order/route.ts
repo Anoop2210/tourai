@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { razorpay, PREMIUM_PRICE_INR } from "@/lib/razorpay";
+import { getRazorpay, PREMIUM_PRICE_INR } from "@/lib/razorpay";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
     const { tripId, userId } = await req.json();
+    const razorpay = getRazorpay();
 
     const order = await razorpay.orders.create({
       amount: PREMIUM_PRICE_INR * 100,
