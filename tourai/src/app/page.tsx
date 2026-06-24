@@ -95,7 +95,7 @@ export default function HomePage() {
                 <div className="flex gap-1 text-amber-400">
                   {Array.from({ length: t.rating }).map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
                 </div>
-                <p className="mt-3 text-sm text-slate-600">"{t.text}"</p>
+                <p className="mt-3 text-sm text-slate-600">&ldquo;{t.text}&rdquo;</p>
                 <div className="mt-4 text-sm font-semibold text-slate-900">{t.name}</div>
               </CardContent>
             </Card>
