@@ -13,8 +13,8 @@ const features = [
 
 const destinations = [
   { name: "Goa", img: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=600", price: "₹8,000+" },
-  { name: "Manali", img: "https://images.unsplash.com/photo-1626621341169-7a13f4e3ab0e?w=600", price: "₹6,500+" },
-  { name: "Kashmir", img: "https://images.unsplash.com/photo-1566837497312-7be4ebf02c4e?w=600", price: "₹12,000+" },
+  { name: "Manali", img: "https://images.unsplash.com/photo-1626198226928-617bfde74f6e?w=600", price: "₹6,500+" },
+  { name: "Kashmir", img: "https://images.unsplash.com/photo-1602680905134-3068afaf2c4a?w=600", price: "₹12,000+" },
   { name: "Thailand", img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=600", price: "₹35,000+" },
 ];
 
